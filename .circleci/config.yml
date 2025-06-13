@@ -1,32 +1,31 @@
 version: 2.1
 
 jobs:
-  test:
+  python-job:
     docker:
-      - image: cimg/python:3.10
+      - image: circleci/python:3.10.1-node-browsers
     steps:
       - checkout
-
       - run:
-          name: Install dependencies
+          name: Set up virtualenv
           command: |
             python -m venv venv
             . venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-
       - run:
-          name: Run pytest with reporter-html1
+          name: Install dependencies
           command: |
             . venv/bin/activate
-            pytest --report=pytest-report.html
-
+            pip install -r requirements.txt
+      - run:
+          name: Run tests and generate HTML report
+          command: |
+            . venv/bin/activate
+            pytest --reporter=html1 --report=report.html
       - store_artifacts:
-          path: pytest-report.html
-          destination: test-report
+          path: report.html
+          destination: python-report
 
 workflows:
-  version: 2
-  test_all:
+  build-and-test:
     jobs:
-      - test
+      - python-job
