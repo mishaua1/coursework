@@ -12,13 +12,14 @@ jobs:
           command: |
             python -m venv venv
             . venv/bin/activate
+            pip install --upgrade pip
             pip install -r requirements.txt
 
       - run:
-          name: Run tests and generate report
+          name: Run pytest with reporter-html1
           command: |
             . venv/bin/activate
-            pytest
+            pytest --report=pytest-report.html
 
       - store_artifacts:
           path: pytest-report.html
