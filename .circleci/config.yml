@@ -3,27 +3,23 @@ version: 2.1
 jobs:
   python-job:
     docker:
-      - image: circleci/python:3.10.1-node-browsers
+      - image: cimg/python:3.10
     steps:
       - checkout
       - run:
-          name: set up venv
+          name: Set up venv
           command: |
             python -m venv venv
             . venv/bin/activate
-      - run:
-          name: install dependencies
-          command: |
-            . venv/bin/activate
             pip install -r requirements.txt
       - run:
-          name: run tests
+          name: Run pytest with HTML1 report
           command: |
             . venv/bin/activate
             pytest
       - store_artifacts:
           path: pytest-report
-          destination: python-report
+          destination: pytest-report
 
 workflows:
   build-and-test:
