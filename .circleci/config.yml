@@ -6,6 +6,7 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
+
       - run:
           name: Install dependencies
           command: |
@@ -14,14 +15,14 @@ jobs:
             pip install -r requirements.txt
 
       - run:
-          name: Run tests and generate HTML report
+          name: Run tests and generate advanced HTML report
           command: |
             . venv/bin/activate
-            pytest --html=report.html --self-contained-html
+            pytest
 
       - store_artifacts:
-          path: report.html
-          destination: pytest-report
+          path: pytest-report.html
+          destination: test-report
 
 workflows:
   version: 2
