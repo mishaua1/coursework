@@ -6,17 +6,24 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
+
       - run:
           name: Install dependencies
           command: |
             python -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+
       - run:
-          name: Run tests
+          name: Run pytest and generate HTML report
           command: |
             . venv/bin/activate
-            pytest --maxfail=1 --disable-warnings -q --tb=short
+            pytest --html=report.html
+
+      - store_artifacts:
+          path: report.html
+          destination: pytest-report
+
 workflows:
   version: 2
   test_all:
