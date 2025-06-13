@@ -7,22 +7,22 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Set up virtualenv
+          name: set up venv
           command: |
             python -m venv venv
             . venv/bin/activate
       - run:
-          name: Install dependencies
+          name: install dependencies
           command: |
             . venv/bin/activate
             pip install -r requirements.txt
       - run:
-          name: Run tests and generate HTML report
+          name: run tests
           command: |
             . venv/bin/activate
-            pytest --reporter=html1 --report=report.html
+            pytest
       - store_artifacts:
-          path: report.html
+          path: pytest-report
           destination: python-report
 
 workflows:
