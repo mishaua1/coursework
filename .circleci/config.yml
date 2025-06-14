@@ -15,10 +15,11 @@ jobs:
             pip install -r requirements.txt
 
       - run:
-          name: Run tests and generate HTML report
+          name: Run tests and save HTML report
           command: |
             . venv/bin/activate
-            pytest
+            pytest --report=pytest-report.html --template=html1/index.html
+            ls -la
 
       - store_artifacts:
           path: pytest-report.html
@@ -26,6 +27,6 @@ jobs:
 
 workflows:
   version: 2
-  test_all:
+  test-all:
     jobs:
       - test
