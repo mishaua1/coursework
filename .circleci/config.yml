@@ -1,27 +1,31 @@
 version: 2.1
 
 jobs:
-  python-job:
+  test:
     docker:
       - image: cimg/python:3.10
     steps:
       - checkout
+
       - run:
           name: Install dependencies
           command: |
             python -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+
       - run:
-          name: Run pytest with reporter
+          name: Run tests and generate HTML report
           command: |
             . venv/bin/activate
             pytest
+
       - store_artifacts:
           path: pytest-report.html
-          destination: python-report
+          destination: test-report
 
 workflows:
-  build-and-test:
+  version: 2
+  test_all:
     jobs:
-      - python-job
+      - test
